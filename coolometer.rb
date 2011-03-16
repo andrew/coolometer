@@ -1,10 +1,27 @@
+Mongoid.configure do |config|
+  if ENV['MONGOHQ_URL']
+    conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+    uri = URI.parse(ENV['MONGOHQ_URL'])
+    config.master = conn.db(uri.path.gsub(/^\//, ''))
+  else
+    config.master = Mongo::Connection.from_uri("mongodb://localhost:27017").db('coolometer')
+  end
+end
+
+class TwitterUser
+  include Mongoid::Document
+
+  field :updated_at, :type => DateTime
+  field :followers_count, :type => Integer
+  field :friends_count, :type => Integer
+  field :created_at, :type => DateTime
+  field :screen_name
+  field :profile_image_url
+  field :megafonzies, :type => Float
+end
+
 class Coolometer < Sinatra::Base
   set :root, File.dirname(__FILE__)
-
-  configure do
-    uri = URI.parse(ENV["REDISTOGO_URL"])
-    REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-  end
 
   get '/' do
     haml :index
@@ -21,10 +38,10 @@ class Coolometer < Sinatra::Base
   end
 
   def calculate_coolness_for(username)
-    @user = Twitter.user(username)
-    if megafonzies = REDIS.get(username)
-      return @megafonzies = megafonzies.to_f
+    if @user = TwitterUser.first(:conditions => {:screen_name => username})
+      @megafonzies = @user.megafonzies.to_f
     else
+      @user = Twitter.user(username)
       timeline = Twitter.user_timeline(username)
       trends = Twitter.trends_weekly
       @megafonzies = 0
@@ -47,7 +64,13 @@ class Coolometer < Sinatra::Base
 
       # how long you've been on twitter
       @megafonzies += (Time.now - Time.parse(@user.created_at)).to_f/10000000
-      REDIS.set @user.screen_name, @megafonzies
+      TwitterUser.create( :updated_at => Time.now,
+                          :followers_count => @user.followers_count,
+                          :friends_count => @user.friends_count,
+                          :created_at => @user.created_at,
+                          :screen_name => @user.screen_name,
+                          :profile_image_url => @userprofile_image_url,
+                          :megafonzies => @megafonzies)
     end
   end
 end
