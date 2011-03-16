@@ -1,4 +1,5 @@
-%img{:src => @user.profile_image_url, :style => 'float:left;'}
+%a{:href => "http://twitter.com/#{@user.screen_name}"}
+  %img{:src => @user.profile_image_url, :style => 'float:left;'}
 %h1
   = "#{@user.screen_name}'s"
   coolness rating is:
