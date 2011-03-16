@@ -9,6 +9,16 @@
       Cool-o-Meter
   %body
     = yield
+    %footer
+      %a{:href => '/'}
+        Home
+      |
+      %a{:href => '/leaderboard'}
+        Leaderboard
+      |
+      Copyright &copy;
+      %a{:href => 'http://teabass.com'}
+        Andrew Nesbitt
     :javascript
       var _gaq = _gaq || [];
        _gaq.push(['_setAccount', 'UA-265870-23']);

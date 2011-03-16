@@ -31,6 +31,11 @@ class Coolometer < Sinatra::Base
     redirect to("/#{params[:username]}")
   end
 
+  get '/leaderboard' do
+    @twitter_users = TwitterUser.desc(:megafonzies).limit(100)
+    haml :leaderboard
+  end
+
   get '/:username' do
     calculate_coolness_for(params[:username])
 

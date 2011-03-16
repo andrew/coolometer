@@ -3,3 +3,17 @@ body{
   font-size:20px;
   font-weight:bold;
 }
+
+.user{
+  list-style:none;
+  overflow:hidden;
+}
+.user img{
+  float:left;
+  margin-right:5px;
+}
+
+footer, footer a{
+  color:#bbb;
+  font-size: 12px;
+}
