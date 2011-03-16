@@ -69,7 +69,7 @@ class Coolometer < Sinatra::Base
                           :friends_count => @user.friends_count,
                           :created_at => @user.created_at,
                           :screen_name => @user.screen_name,
-                          :profile_image_url => @userprofile_image_url,
+                          :profile_image_url => @user.profile_image_url,
                           :megafonzies => @megafonzies)
     end
   end
