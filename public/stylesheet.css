@@ -13,7 +13,18 @@ body{
   margin-right:5px;
 }
 
+a{
+  color:#0A5EB6;
+}
+
 footer, footer a{
   color:#bbb;
   font-size: 12px;
+}
+
+#leaderboard{
+  border:none;
+}
+td,th{
+  padding:2px;
 }

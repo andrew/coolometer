@@ -1,10 +1,15 @@
 %h1 Leaderboard
-%ul
-  - @twitter_users.each do |twitter_user|
-    %li.user
-      %a{:href => "http://twitter.com/#{twitter_user.screen_name}"}
-        %img{:src => twitter_user.profile_image_url}
-      = "#{twitter_user.screen_name}'s"
-      coolness rating is:
-      %b= twitter_user.megafonzies.round
-      megafonzies
+%table#leaderboard
+  - @twitter_users.each_with_index do |twitter_user, i|
+    %tr.user
+      %td
+        = "#{i+1}."
+      %td
+        %a{:href => "http://twitter.com/#{twitter_user.screen_name}"}
+          %img{:src => twitter_user.profile_image_url}
+      %td
+        %a{:href => "/#{twitter_user.screen_name}"}
+          = twitter_user.screen_name
+      %td
+        %b= twitter_user.megafonzies.round
+        Megafonzies
