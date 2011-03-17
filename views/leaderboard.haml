@@ -1,7 +1,7 @@
 %h1 Leaderboard
 %table#leaderboard
   - @twitter_users.each_with_index do |twitter_user, i|
-    %tr.user
+    %tr
       %td
         = "#{i+1}."
       %td
@@ -12,4 +12,3 @@
           = twitter_user.screen_name
       %td
         %b= twitter_user.megafonzies.round
-        Megafonzies
