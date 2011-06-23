@@ -62,10 +62,10 @@ class Coolometer < Sinatra::Base
       timeline.each {|tweet| @megafonzies += tweet.retweet_count.to_i}
 
       # followers
-      @megafonzies += @user.followers_count.to_f+1/@user.friends_count+1
+      @megafonzies += (@user.followers_count.to_f+1)/(@user.friends_count+1)
 
       # listed
-      @megafonzies += @user.listed_count.to_f+1/100
+      @megafonzies += (@user.listed_count.to_f+1)/100
 
       # how long you've been on twitter
       @megafonzies += (Time.now - Time.parse(@user.created_at)).to_f/10000000
